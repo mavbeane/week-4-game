@@ -1,138 +1,164 @@
 $(document).ready(function(){
 
-// Start Game
 
-//variables and objects
-var playerDiv = document.createElement('div');
-var yourCharacter;
-var defender;
+	//Global Variable
+	var yourCharacter;
+	var playerDiv;
 
-
-
-
-//Create four chracters – include health points, attack power, counter attack power
-
-
+	//Create objects for characters
 	var player = []
 	player[0] = {
 		name: 'blue',
-		healthPoints: 150,
-		attackPower: 50,
-		counterPower: 30,	
+		healthPoints: 100,
+		attackPower: 10,
+		counterPower: 8,	
 		image: 'assets/images/player-blue.png',
-		
 	}
-	player[1] = {
-		
+	player[1] = {	
 		name: 'green',
-		healthPoints: 130,
-		attackPower: 50,
-		counterPower: 30,
+		healthPoints: 120,
+		attackPower: 8,
+		counterPower: 16,
 		image: 'assets/images/player-green.png',
 	}
 	player[2] = {
 		name: 'purple',
-		healthPoints: 140,
-		attackPower: 50,
-		counterPower: 30,
+		healthPoints: 130,
+		attackPower: 15,
+		counterPower: 18,
 		image: 'assets/images/player-purple.png',
-		
 	}
 	player[3] = {
 		name: 'yellow',
-		healthPoints: 120,
-		attackPower: 50,
-		counterPower: 30,
+		healthPoints: 140,
+		attackPower: 12,
+		counterPower: 15,
 		image: 'assets/images/player-yellow.png',
-		
 	}
 
-//console.log(player[0].element);
-//console.log(healthPoints[0]);
+		//TO DO: Create function start game
+
+		for (var i = 0; i < player.length; i++) {
+
+			var listItem = $('<div>').attr('value', [i]).html('<p>' + player[i].name + '</p>' + '<img src="' + player[i].image + '">' + '<p id="healthpoints">' + player[i].healthPoints + '</p>').addClass('player').attr('id', player[i].name);	
+			$('#characters').append(listItem);
+
+		};
 	
-
-		// Health Points 
-		// Attack Power –– Used when selected chracter
-		// Counter Attack Power –– Used when enemy – never
-
-
-for (var i = 0; i < player.length; i++) {
-
-	var listItem = $('<div>').html('<p>' + player[i].name + '</p>' + '<img src="' + player[i].image + '">' + '<p>' + player[i].healthPoints + '</p>').addClass('player').attr('id', player[i].name);
+		var characterChosen = false;
+		var defenderChosen = false;
 	
-	$('#characters').append(listItem);
+		$('.player').on("click", function() {
 
-}
-	
-	// 1 Choose a character to play 
+			var yourDefender;
+			
+			if (characterChosen == false && defenderChosen == false) {
+				
+				//Define Your character + get stats
+				yourCharacter = $(this).attr('value');
+				characterHealthPoints = player[yourCharacter].healthPoints;
+				characterAttackPower = player[yourCharacter].attackPower;
+				characterName = player[yourCharacter].name;
+				characterBasePower = player[yourCharacter].attackPower;
 
-			//on click – add atrribute id – Character // remove class (chracterOptions)
-			//.class – append to 
-			//on click 
+				$(this).removeClass('player').addClass('character');
+				console.log('Your character: ' + yourCharacter);
+				console.log('Character Health Points: ' + characterHealthPoints);
+				console.log('Character Attack Power: ' + characterAttackPower);
+				console.log('Character Base Power: ' + characterBasePower);
+				console.log('____________');
 
-//if ()
-$('.player').one("click", function() {
+				//Move enemies
+				$('.player').detach().appendTo('#enemies');
+				$('.character-title').text('YOU');	
+				$('.enemies-title').text('Choose Your Enemy');
+				
+				characterChosen = true;
+				console.log('Character chosen: ' + characterChosen);
 
-	yourCharacter = $(this).attr('id');
-	$(this).removeClass('player').addClass('character');
-	console.log(yourCharacter);
-	$('.player').detach().appendTo('#enemies');
-	$('.character-title').text('Your Character');
-});
-	
-
-//	$(".roll").on("click", function() {
-//  dieNum = $(this).html();
-//  rollDie(dieNum);
-//});	
-
-	// Remaining charcters become Enemies 
-
-
-			//Push enemies below
-
-	// 2 Click Enemy to attack
-
-	$('.enemies').one("click", function() {
-
-		yourEnemy = $(this).attr('id');
-		$(this).removeClass('enemies').addClass('defender');
-		console.log(yourEnemy);
-		$('#remaining').html('Remaining Enemies');
-
-		$('.enemies').detach().appendTo('#remaining');
-	});
-
-	// 3 Click Attack button
+			} else if (characterChosen == true && defenderChosen == false) {
+				
+				//Chose Defender + get stats
+				yourDefender = $(this).attr('value');
+				defenderHealthPoints = player[yourDefender].healthPoints;
+				defenderCounterPower = player[yourDefender].counterPower;
+				defenderName = player[yourDefender].name;
 
 
+				//yourDefender = player(value);
+				console.log('Your defender: ' + yourDefender);
+				console.log('Defender Healthpoints: ' + defenderHealthPoints);
+				console.log('Defender Attack Power: ' + defenderCounterPower);
+				console.log('____________');
 
-			// Auto message to show results
+				$(this).removeClass('enemies').addClass('defender');
+				$('.defender').detach().appendTo('#defender');
+				$('#defender').addClass('fight');
+				$('#characters').addClass('fight');
+				$('.defender-title').text('Your Defender');
+				$('.enemies-title').text('Remaining Enemies');
 
-					// You attacked __ for 8 damage
-					// __ attached you back for 25 damage
+				$('<button>').appendTo('#attack').html('attack').addClass('attack');
+				$('#attack').addClass('show');
+				$('.attack-title').text('VS.');
+				defenderChosen = true;
+			
+			};
 
-				//Subtract these numbers from health scores of each
+			console.log('Defender chosen: ' + defenderChosen);
 
-				// Attack power increases by base attack power
+			$('.attack').on("click", function() {
 
-			//Click attack again
+				if (characterHealthPoints > 0 && defenderHealthPoints > 0 ) {
 
-				// Your attacks increases (by same number) in number with each attack
-				// Enemies remain the same each time
+				console.log('Attack Made!');
+				
+				//Update health stats + 
+				characterHealthPoints = characterHealthPoints - defenderCounterPower; 
+				defenderHealthPoints = defenderHealthPoints - characterAttackPower;
+				characterAttackPower = characterAttackPower + characterBasePower;
 
-	//If - You win 
 
-			//Enemy defeated message
-			//Enemy taken off of board
+				console.log('Character Health Points: ' + characterHealthPoints);
+				console.log('Character Attack Power: ' + characterAttackPower);
+				console.log('____________');
 
-			//If you hit attack and no enemy selected – "no enemy" message
+				console.log('Defender Healthpoints: ' + defenderHealthPoints);
+				console.log('Defender Attack Power: ' + defenderCounterPower);
+				console.log('____________');
+			
 
-			//If all chracters attacked – You win the game
+				// Messages:  You attacked Defender for XX damage //  Defender attacked you for XX damage
+				$('#instructions').html('<p>' + 'You attacked ' + defenderName + ' for ' + characterAttackPower + ' damages!</p>' + '<p>' + defenderName + ' attacked you for ' + defenderCounterPower + ' damages!</p>');
 
-	// If enemy wins – You lose
+			} else if (characterHealthPoints <= 0) {
+				
+				//Enemy defeated message
+				$('#instructions').html('<p>' + defenderName + ' beat you!! You lost!</p>');
 
-		// You are defeated message // game over
+				// ToDo: Restart Game 
 
-		//Restart game button
+			} else if (defenderHealthPoints <= 0) {
+
+				//Enemy win message
+				$('#instructions').html('<p>You beat ' + defenderName + '!</p>' + '<p>Pick another enemy below.</p>');
+				$('.attack').addClass('hide'); 
+
+				//Enemy taken off of board
+				$('#defender div').addClass('hide'); 
+
+				//Allow new defender to be selected
+				defenderChosen = false;
+			
+			};
+
+			// TO DO: Add if you beat all enemies
+
+			});
+
+
+
+		});
+
+		
 });
