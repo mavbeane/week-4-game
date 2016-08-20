@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Titillium Web', arial, sans-serif;
+  font-weight: 100;
+  height: 100%;
+  background-color: #1bf4fb;
+}
+img {
+	max-width: 100%;
+	height: auto;
+}
+#wrapper {
+	width: 90%;
+	max-width: 800px;
+	border: 1px solid #fff;
+	min-height: 100px;
+	margin: auto;
+	overflow: auto;
+}
+#instructions {
+	min-height: 100px;
+	margin: 2em auto;
+	background-color: #fff;
+}
+#characters, #enemies, #defender {
+	min-height: 100px;
+	margin: 2em 1%;
+	padding: 20px;
+	background-color: #fff;
+	overflow: auto;
+	text-align: center;
+	float: left;
+}
+#remaining {
+	min-height: 100px;
+	margin: 2em 1%;
+	padding: 20px;
+	background-color: #ccc;
+	overflow: auto;
+	text-align: center;
+	clear: both;
+}
+
+
+#attack {
+	min-height: 100px;
+	margin: 2em auto;
+	background-color: #fff;
+	float: left;
+}
+
+.player, .enemies, .character, .defender {
+	width: 150px;
+	display: inline-block;
+	border: 1px solid #ccc;
+	padding: 15px;
+	min-height: 100px;
+}
+.player, .enemies {
+	cursor: pointer;
+}
+h2 {
+	font-size: 2em;
+	text-align: center;
+	margin-bottom: 1em;
+}
+p {
+	font-size: 1em;
+	margin-bottom: 1em;
+	text-align: center;
+}
+
